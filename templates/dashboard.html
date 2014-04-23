@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A layout example that shows off a responsive email layout.">
+    <title>GEWB | {{user.name}}</title>
+
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/layouts/email.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/main-grid.css">
+
+</head>
+<body>
+<div id="layout" class="content pure-g">
+    {% if error %}
+        <div class="alert error">{{error}}</div>
+    {% endif %}
+    {% if info %}
+        <div class="alert info">{{info}}</div>
+    {% endif %}
+    {% if success %}
+        <div class="alert success">{{success}}</div>
+    {% endif %}
+
+    <div id="nav" class="pure-u">
+        <a href="#" class="nav-menu-button">Menu</a>
+        <div class="nav-inner">
+            <button class="primary-button pure-button">{{user.username}}</button>
+            <div class="pure-menu pure-menu-open">
+                <ul>
+{#                     <li><a href="#">Inbox <span class="email-count">(2)</span></a></li>#}
+                    {% for follower in follows %}
+                        <li><a href="#">{{follower.name}}</a></li>
+                    {% endfor %}
+                    <li class="pure-menu-heading">Filters</li>
+                    <li><a href="#"><span class="email-label-work"></span>Newest</a></li>
+                    <li><a href="#"><span class="email-label-personal"></span>Emergencies</a></li>
+                    <li><a href="#"><span class="email-label-travel"></span>Broadcasts</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="list" class="pure-u-1">
+        <div class="email-item email-item-selected pure-g">
+            <div class="pure-u">
+                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src="{{STATIC_URL}}img/common/tilo-avatar.png">
+            </div>
+            <div class="pure-u-3-4">
+                <h5 class="email-name">Tilo Mitra</h5>
+                <h4 class="email-subject">Hello from Toronto</h4>
+                <p class="email-desc">
+                    Hey, I just wanted to check in with you from Toronto. I got here earlier today.
+                </p>
+            </div>
+        </div>
+        <div class="email-item email-item-unread pure-g">
+            <div class="pure-u">
+                <img class="email-avatar" alt="Eric Ferraiuolo&#x27;s avatar" height="64" width="64" src="{{STATIC_URL}}img/common/ericf-avatar.png">
+            </div>
+            <div class="pure-u-3-4">
+                <h5 class="email-name">Eric Ferraiuolo</h5>
+                <h4 class="email-subject">Re: Pull Requests</h4>
+                <p class="email-desc">
+                    Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.
+                </p>
+            </div>
+        </div>
+        <div class="email-item email-item-unread pure-g">
+            <div class="pure-u">
+                <img class="email-avatar" alt="YUI&#x27;s avatar" height="64" width="64" src="{{STATIC_URL}}img/common/yui-avatar.png">
+            </div>
+            <div class="pure-u-3-4">
+                <h5 class="email-name">YUI Library</h5>
+                <h4 class="email-subject">You have 5 bugs assigned to you</h4>
+                <p class="email-desc">
+                    Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="main" class="pure-u-1">
+        <div class="email-content">
+            <div class="email-content-header pure-g">
+                <div class="pure-u-1-2">
+                    <h1 class="email-content-title">Hello from Toronto</h1>
+                    <p class="email-content-subtitle">
+                        From <a>Tilo Mitra</a> at <span>3:56pm, April 3, 2012</span>
+                    </p>
+                </div>
+                <div class="email-content-controls pure-u-1-2">
+                    <button class="secondary-button pure-button">Reply</button>
+                    <button class="secondary-button pure-button">Forward</button>
+                    <button class="secondary-button pure-button">Move to</button>
+                </div>
+            </div>
+            <div class="email-content-body">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <p>
+                    Regards,<br>
+                    Tilo
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui.js"></script>
+<script>
+    YUI().use('node-base', 'node-event-delegate', function (Y) {
+        var menuButton = Y.one('.nav-menu-button'),
+            nav        = Y.one('#nav');
+        // Setting the active class name expands the menu vertically on small screens.
+        menuButton.on('click', function (e) {
+            nav.toggleClass('active');
+        });
+        // Your application code goes here...
+    });
+</script>
+<script>
+YUI().use('node-base', 'node-event-delegate', function (Y) {
+    // This just makes sure that the href="#" attached to the <a> elements
+    // don't scroll you back up the page.
+    Y.one('body').delegate('click', function (e) {
+        e.preventDefault();
+    }, 'a[href="#"]');
+});
+</script>
+</body>
+</html>
