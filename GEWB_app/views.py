@@ -24,10 +24,11 @@ def signup(request):
 
 def signin(request):
     if request.POST:
-        if 'username' in request.POST:
+        if 'username' in request.POST and 'wb_id' in request.POST:
             try:
-                user = User.objects.get(username=request.POST['username'])
+                user = User.objects.get(username=request.POST['username'], wb_id=request.POST['wb_id'])
                 request.session['username'] = user.username
+                return dashboard(request, dic={'success': "logged in as " + user.name})
             except User.DoesNotExist:
                 return render_to_response('master.html', {'error': 'user not found'}, RequestContext(request))
     return render_to_response('master.html', {'error': 'enter your username'}, RequestContext(request))
@@ -49,3 +50,12 @@ def dashboard(request, dic={}):
         except User.DoesNotExist:
             return render_to_response('master.html', {'error': 'please login'}, RequestContext(request))
     return render_to_response('master.html', {'error': 'please login'}, RequestContext(request))
+
+
+def logged_in_user(request):
+    if 'username' in request.session:
+        try:
+            return User.objects.get(username=request.session['username'])
+        except User.DoesNotExist:
+            return signin(request)
+    return signin(request)

@@ -24,14 +24,15 @@ class User(models.Model):
         return [f.user1 if not f.user1==self else f.user2 for f in Follow.objects.filter(Q(user1=self) | Q(user2=self))]
 
 
-class UserLocation(models.Model):
+class Emergency(models.Model):
     user = models.ForeignKey(User, related_name='owner')
+    category = models.CharField(max_length=64)
     lon = models.FloatField()
     lat = models.FloatField()
     create_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return self.user.name + " " + self.get_location()
+        return self.user.name + " " + self.category + " " + str(self.get_location())
 
     def get_location(self):
         return {'lon':self.lon, 'lat':self.lat}
