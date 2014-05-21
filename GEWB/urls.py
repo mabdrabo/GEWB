@@ -18,3 +18,7 @@ urlpatterns += patterns('GEWB_app.views',
 	url(r'^signout$', "signout", name="signout"),
 	url(r'^dashboard$', "dashboard", name="dashboard"),
 )
+
+urlpatterns += patterns('GEWB_app.api',
+    url(r'^emergency/(?P<em_type>\w+)/add/$', "add_emergency", name="emergency_add"),
+)
