@@ -37,6 +37,8 @@ coverage.xml
 # Translations
 *.mo
 
+*.sqlite3
+
 # Mr Developer
 .mr.developer.cfg
 .project
@@ -51,4 +53,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
